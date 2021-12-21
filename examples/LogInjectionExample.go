@@ -8,10 +8,10 @@ import (
 	"time"
 )
 
-import l4g "log4go"
+import l4g "github.com/chuanwenchen/log4go"
 
 const (
-	filename = "loginjection.log"
+	filename1 = "loginjection.log"
 )
 
 func main() {
@@ -29,7 +29,7 @@ func main() {
 	log := make(l4g.Logger)
 
 	/* Can also specify manually via the following: (these are the defaults) */
-	flw := l4g.NewFileLogWriter(filename, false, false)
+	flw := l4g.NewFileLogWriter(filename1, false, false)
 	flw.SetFormat("[%D %T] [%L] (%S) %M")
 	flw.SetRotate(false)
 	flw.SetRotateSize(0)
@@ -39,7 +39,7 @@ func main() {
 	log.AddFilter("file", l4g.FINE, flw)
 
 	// Log some experimental messages
-	for _,message := range(user_input) {
+	for _, message := range user_input {
 		log.Info(message)
 	}
 
@@ -51,8 +51,8 @@ func main() {
 	// Close the log
 	log.Close()
 
-	// Print what was logged to the file 
-	fd, err := os.Open(filename)
+	// Print what was logged to the file
+	fd, err := os.Open(filename1)
 	if err != nil {
 		fmt.Printf("Error reopening file: %s", filename)
 		return
@@ -71,7 +71,7 @@ func main() {
 	}
 	fd.Close()
 	// Remove the file so it's not lying around
-	os.Remove(filename)
+	os.Remove(filename1)
 
 	if lineno != len(user_input) {
 		fmt.Fprintf(os.Stderr, "The user gave us %d lines of input but we logged %d. Hrmm...\n", len(user_input), lineno)
